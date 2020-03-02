@@ -374,7 +374,38 @@ ej:
 
 ### Component  ImageBackground
 
-Este componente nos permite colocar una imagen de background a un componente
+Este componente nos permite colocar una imagen de background a un componente.
 
 
+
+### Instalando plugins de la comunidad
+
+
+Cuando instalamos una dependencia para que esta funcione correctamente dentro de nuestra app debemos hacer un **npm install**
+
+ej:
+
+```
+
+npm isntall --save react-native-video
+
+npm install
+
+```
+
+Una vez que hayamos instalado la dependencia como no es una native debemos enlazarla con un link esto lo hacemos de la siguiente manera:
+
+```
+
+react-native link react-native-video
+
+```
+
+Luego de instalar una dependencia debemos correr de nuevo el build de andoird o ios.
+
+
+
+### Componente ActivityIndicator 
+
+Este componente crear un spinner nativo.
 
