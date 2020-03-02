@@ -218,5 +218,163 @@ const styles = StyleSheet.create({
 ```
 
 
+### Listas en React Native
+
+Debemos saber que las listas como un *<ul>* no se manejan igual que en la web para crear listas de item debemos importar un componente de rn
+
+**¿Cuál es el componente que debemos llamar?**
+
+El componente se llama **<FlatList>**
+
+
+```
+
+import { FlatList } from 'react-native'
+
+```
+
+**¿Cuales son las propiedades que recibe este componente?**
+
+
+1. data
+2. renderItem
+
+
+Este componente funciona como un map ya que la propiedad data es a la que le pasaremos nuestros datas array preferiblemente.
+**NOTA IMPORTANTE** la data que recibe el componente siempre debe tener un indentificador
+
+luego esta la propiedad **renderItem** vendria siendo como el map y este es el que se va a encargar de hacer el bucle a nuestra data.
+
+```
+
+  const list = [
+    {
+      title: 'Ezequiel',
+      key: '1',
+    },
+    {
+      title: 'nidas',
+      key: '2',
+    },
+  ];
+  return (
+    <FlatList data={list} renderItem={({item}) => <Text>{item.title}</Text>} />
+  );
+};
+
+
+```
+
+**¿Que sucede si estamos consumiendo un api externa y nuestra key para identificar no se llamar key?**
+
+Propiedad **keyExtractor**
+Para esto necesitamos colocarle una propiedad al componente indicandole cual sera la propiedad key normalmente suele ser el id.
+
+**NOTA**: El valor que recibe esta propiedad debe ser un string es decir si el id no es como el de mongodb si no que es más como de msqyl que es númerico debemos pasarlo a string
+
+```
+
+ <FlatList
+          keyExtractor={ item => item.id.toString()}
+/>
+```
+
+### Propiedades para componentes vacíos y separador de componentes.
+
+En el ejemplo anterior creamos un componente que hace un recorrido de los items y los imprime, pero si ese lista de elementos nos llegara vacía?
+
+Pues existe un propiedad dentro de React-Native que nos permite menejar este tipo de condiciones ej:
+
+
+1. ejemplo 1: **ListEmptyComponent**.
+
+Para llamar a esta propiedad debemos pasarla al componente como **ListEmptyComponent** y recibe un componente que se va a renderizar si los datos son vacíos.
+
+
+```
+
+  const list = [];
+  const emptyComponent = () => <Text>Sin resultados...</Text>;
+
+  return (
+    <FlatList 
+	data={list} 
+	ListEmptyComponent={() => emptyComponent()}
+	renderItem={({item}) => <Text>{item.title}</Text>} />
+  );
+};
+
+
+```
+
+2. ejemplo 2: **ItemSeparatorComponent**
+
+Esta propiedad nos permite crear seperadores entre nuestros items del array algo asi parecido a un <hr> pero personalizado a nuestro gusto y se renderizada por cada iten del bucle.
+
+```
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+
+export const VerticalSeparator = props => {
+  return (
+    <View
+      style={[
+        styles.separator,
+        {borderTopColor: props.color ? props.color : '#eaeaea'},
+      ]}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  separator: {
+    borderTopWidth: 1,
+  },
+});
+
+
+ const emptyComponent = () => <EmptyResponse text="Sin resultados" />;
+  const VSeparator = () => <VerticalSeparator color={'red'} />;
+  return (
+    <Layout title="Recomendado para ti">
+      <FlatList
+        data={list}
+        ItemSeparatorComponent={() => VSeparator()}
+        ListEmptyComponent={() => emptyComponent()}
+        renderItem={({item}) => <Text>{item.title}</Text>}
+      />
+    </Layout>
+  );
+};á
+
+
+```
+
+
+### Propiedad horizontal
+
+
+La propiedad horizontal nos permite básicamente hacer algo parecido a un overflow-x: scroll
+
+ej:
+
+
+```
+    
+		<FlatList
+          	horizontal
+          	keyExtractor={this.keyExtractor}
+          	data={this.props.list}
+          	ListEmptyComponent={this.renderEmtpy}
+          	ItemSeparatorComponent={this.itemSeparator}
+          	renderItem={this.renderItem}
+        />
+```
+
+
+### Component  ImageBackground
+
+Este componente nos permite colocar una imagen de background a un componente
+
 
 
