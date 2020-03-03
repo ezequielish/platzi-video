@@ -6,6 +6,7 @@ export const Layout = props => {
     <View style={styles.container}>
       <View style={styles.video}>{props.video}</View>
       <View style={styles.overlay}>{props.loading && props.loader}</View>
+      {props.controls}
     </View>
   );
 };

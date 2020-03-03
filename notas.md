@@ -409,3 +409,13 @@ Luego de instalar una dependencia debemos correr de nuevo el build de andoird o 
 
 Este componente crear un spinner nativo.
 
+
+### Component TouchableHighlight
+
+Este componente nos ayuda a manejar el touch en los botones de nuestra inteface vendria siendo como un <button> como un onClick llamado **onPress** este componente recibe varias propiedades.
+
+
+1. onPress = Una función que se ejecuta cuando hace touch.
+2. underlayColor = color de background cuando se hace touch.
+3. hitSlop = Crear un radio al rededor del botón que si no presionamos el botón justo dentro pero si en el radio también se ejecuta la función
+
