@@ -417,5 +417,20 @@ Este componente nos ayuda a manejar el touch en los botones de nuestra inteface 
 
 1. onPress = Una función que se ejecuta cuando hace touch.
 2. underlayColor = color de background cuando se hace touch.
-3. hitSlop = Crear un radio al rededor del botón que si no presionamos el botón justo dentro pero si en el radio también se ejecuta la función
+3. hitSlop = Crear un radio al rededor del botón que si no presionamos el botón justo dentro pero si en el radio también se ejecuta la función.
 
+
+### Persistiendo datos
+
+
+Esta es una herramienta que nos permite utilizar algo parecido al localStorage pero dentro de react native para que nuestra app pueda funcionar de forma offline, de hecho también nos sirve para persistir los datos en la web pero con *localStorage* aquí usamos **AsyncStorage**.
+
+!(https://github.com/rt2zz/redux-persist)[persist redux]
+
+
+Lo que debemos hacer es persistir los datos y luego dentro de un componente llamado **<PersistGate />** que va como hijo del componente **<Provider />** 
+
+```
+ <PersistGate loading={<Text>cargando...</Text>} persistor={persistor}>
+
+```
