@@ -1,38 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import React from 'react';
 import {Home} from './src/screens/Home';
 import {Header} from './src/sections/components/Header';
-import {SuggestionList} from './src/video/containers/SuggestionList';
-import {CategoryList} from './src/video/containers/CategoriesList';
-import Player from './src/player/containers/Player'
-import {getSuggestion, getMovies} from './utils/api';
+import SuggestionList from './src/video/containers/SuggestionList';
+import CategoryList from './src/video/containers/CategoriesList';
+import Player from './src/player/containers/Player';
+import reducers from './reducers';
+import reduxThunk from 'redux-thunk';
+import {createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
 type Props = {};
 
+const store = createStore(reducers, applyMiddleware(reduxThunk));
 export const App = () => {
-  const [movies, setMovies] = useState([]);
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getSuggestion(10);
-      setMovies(data);
-    }
-
-    fetchData();
-  }, []);
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getMovies();
-      setCategories(data);
-    }
-
-    fetchData();
-  }, []);
   return (
-    <Home>
-      <Header />
-      <Player />
-      <CategoryList list={categories} />
-      <SuggestionList list={movies} />
-    </Home>
+    <Provider store={store}>
+      <Home>
+        <Header />
+        <Player />
+        <CategoryList />
+        <SuggestionList />
+      </Home>
+    </Provider>
   );
 };
