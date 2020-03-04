@@ -1,5 +1,10 @@
 const BASE_API = 'https://yts.am/api/v2/';
-import {GET_MOVIES, LOADING, ERROR} from '../types/moviesType';
+import {
+  GET_MOVIES,
+  LOADING,
+  ERROR,
+  GET_ITEM_SELECTED,
+} from '../types/moviesType';
 
 export const getMovies = () => async dispatch => {
   dispatch({
@@ -20,4 +25,18 @@ export const getMovies = () => async dispatch => {
       payload: error,
     });
   }
+};
+
+export const getMovieSelected = item => dispatch => {
+  dispatch({
+    type: GET_ITEM_SELECTED,
+    payload: item,
+  });
+};
+
+export const cleanMovieSelected = () => dispatch => {
+  dispatch({
+    type: GET_ITEM_SELECTED,
+    payload: '',
+  });
 };

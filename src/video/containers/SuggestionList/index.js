@@ -20,6 +20,10 @@ const SuggestionList = props => {
 
     fetchData();
   }, [props]);
+
+  const viewMovie = item => {
+    props.getMovieSelected(item);
+  };
   return (
     <Layout title="Recomendado para ti">
       <FlatList
@@ -27,14 +31,19 @@ const SuggestionList = props => {
         keyExtractor={item => item.id.toString()}
         ItemSeparatorComponent={() => VSeparator()}
         ListEmptyComponent={() => emptyComponent()}
-        renderItem={({item}) => <Suggestion {...item} />}
+        renderItem={({item}) => (
+          <Suggestion
+            {...item}
+            onPress={() => {
+              viewMovie(item);
+            }}
+          />
+        )}
       />
     </Layout>
   );
 };
 const mapStateToProps = ({moviesReducer}) => moviesReducer;
 
-export default connect(
-  mapStateToProps,
-  moviesActions,
-)(SuggestionList);
+// eslint-disable-next-line prettier/prettier
+export default connect(mapStateToProps, moviesActions)(SuggestionList);

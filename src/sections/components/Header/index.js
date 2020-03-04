@@ -14,8 +14,8 @@ export const Header = props => {
             source={require('../../../../assets/logo.png')}
             style={styles.logo}
           />
+          <View style={styles.right}>{props.children}</View>
         </View>
-        <View style={styles.right}>{props.children}</View>
       </SafeAreaView>
     </View>
   );

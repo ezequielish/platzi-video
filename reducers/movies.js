@@ -1,7 +1,13 @@
-import {GET_MOVIES, LOADING, ERROR} from '../types/moviesType';
+import {
+  GET_MOVIES,
+  GET_ITEM_SELECTED,
+  LOADING,
+  ERROR,
+} from '../types/moviesType';
 
 const INITIAL_STATE = {
   movies: [],
+  get_movie_selected: '',
   loading: false,
   error: '',
 };
@@ -16,6 +22,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ERROR:
       return {...state, loading: false, error: action.payload};
+
+    case GET_ITEM_SELECTED:
+      return {...state, get_movie_selected: action.payload};
 
     default:
       return state;

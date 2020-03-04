@@ -434,3 +434,74 @@ Lo que debemos hacer es persistir los datos y luego dentro de un componente llam
  <PersistGate loading={<Text>cargando...</Text>} persistor={persistor}>
 
 ```
+
+con esta dependencia podemos agregar estados a una lista negra por ejempl si quisieramos agregar un estamos como este a la lista negra para que no persita:
+
+
+**reducers/categoires.js**
+
+
+```
+
+import {GET_CATEGORIES, LOADING, ERROR} from '../types/categoriesType';
+
+const INITIAL_STATE = {
+  categories: [],
+  loading: false,
+  error: '',
+};
+
+export default (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case GET_CATEGORIES:
+      return {...state, categories: action.payload, loading: false};
+
+    case LOADING:
+      return {...state, error: '', loading: true};
+
+    case ERROR:
+      return {...state, loading: false, error: action.payload};
+
+    default:
+      return state;
+  }
+};
+
+
+```
+
+**./store.js**
+
+```
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  blacklist: ['categories']
+};
+
+```
+
+Con esto ya nuestro estado de categoires no va a persistir.
+
+
+**NOTA**
+
+Los componentes smart son los que debe conectarse a redux.
+
+
+
+### Componente Web view
+
+
+Es la forma de embeber un navegadr en nuestra app es decir podemos colocar html css y js dentro de un elemento embebido.
+
+```
+//una url de una web
+<WebView source={{uri: 'url'}} style={{marginTop: 20}} /> 
+
+//inyectar directamente html
+<WebView source={{html: '<html>'}} style={{marginTop: 20}} />
+
+```
+
