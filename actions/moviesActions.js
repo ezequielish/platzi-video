@@ -40,3 +40,23 @@ export const cleanMovieSelected = () => dispatch => {
     payload: '',
   });
 };
+
+export const serachMovie = value => async dispatch => {
+  try {
+    const query = await fetch(
+      `${BASE_API}list_movies.json?limit=1&sort_by=rating&query_term=${value}`,
+    );
+    const {data} = await query.json();
+
+    if (data.movies[0]) {
+      dispatch({
+        type: GET_ITEM_SELECTED,
+        payload: data.movies[0],
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//BASE_AP|

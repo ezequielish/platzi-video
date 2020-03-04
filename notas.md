@@ -505,3 +505,33 @@ Es la forma de embeber un navegadr en nuestra app es decir podemos colocar html 
 
 ```
 
+
+### Componente TextInput
+
+Este componente es el que debemos utilizar para manejar cualquier input dentro de nuestra app, ya con otras propiedades dentro del mismo podemos configurar si es para password, email, date, etc.
+
+
+```
+
+  <TextInput
+      placeholder="Busca una película"
+      autoCorrent={false} //auto corrector
+      autoCapitalize="none" //todas las letras en minuscula
+      underlineColorAndroid="transparent"
+      onSubmitEditing={handleSubmit}
+      onChangeText={handleChangeText}
+      style={styles.input}
+    />
+
+```
+
+### Animaciones en react-native
+
+react-native cuenta con un metodo que cuenta con varios componentes de animaciones que es muy extenso las posibilidades que tiene para crear animaciones.
+
+```
+import {Animated} from 'react-native';
+
+<Animated.View>
+
+```

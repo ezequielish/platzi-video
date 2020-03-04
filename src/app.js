@@ -1,6 +1,7 @@
 import React from 'react';
 import {Home} from './screens/containers/Home';
 import {Header} from './sections/components/Header';
+import Search from './sections/containers/Search';
 import SuggestionList from './video/containers/SuggestionList';
 import CategoryList from './video/containers/CategoriesList';
 import Movie from './screens/containers/Movie';
@@ -12,6 +13,7 @@ const AppLayout = ({get_movie_selected}) => {
   return (
     <Home>
       <Header />
+      <Search />
       <CategoryList />
       <SuggestionList />
     </Home>
