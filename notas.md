@@ -142,9 +142,9 @@ Por otra parte React native crea un punto en el cual el código pasa a ser nativ
 
 **Componentes principales en React Native**
 
-1. <View /> = [<div>, <article>, <section>
+1. <View /> = [<div>, <article>, <section>]
 2. <Text /> = [<p>, <strong>, span, etc]
-3. <Image /> = <img src/>
+3. <Image /> = <img **src** />
 
 
 
@@ -425,7 +425,7 @@ Este componente nos ayuda a manejar el touch en los botones de nuestra inteface 
 
 Esta es una herramienta que nos permite utilizar algo parecido al localStorage pero dentro de react native para que nuestra app pueda funcionar de forma offline, de hecho también nos sirve para persistir los datos en la web pero con *localStorage* aquí usamos **AsyncStorage**.
 
-!(https://github.com/rt2zz/redux-persist)[persist redux]
+![https://github.com/rt2zz/redux-persist](persist redux)
 
 
 Lo que debemos hacer es persistir los datos y luego dentro de un componente llamado **<PersistGate />** que va como hijo del componente **<Provider />** 
@@ -535,3 +535,161 @@ import {Animated} from 'react-native';
 <Animated.View>
 
 ```
+
+Ejemplo de un View con animacion de opacity
+
+```
+import React, {useState, useEffect} from 'react';
+import MovieLayout from '../../components/MovieLayout';
+import Player from '../../../player/containers/Player';
+import {Header} from '../../../sections/components/Header';
+import {Arrow} from '../../../sections/components/ArrowHeader';
+import {Details} from '../../../video/components/Details';
+import {Animated} from 'react-native';
+import {connect} from 'react-redux';
+import * as moviesActions from '../../../../actions/moviesActions';
+
+export const Movie = props => {
+  const [opacity, setOpacity] = useState(new Animated.Value(0));
+  const arrowBack = () => {
+    props.cleanMovieSelected();
+  };
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1000,
+    }).start();
+
+    // return {};
+  }, []);
+  return (
+    <Animated.View
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{
+        flex: 1,
+        opacity: opacity,
+      }}>
+      <MovieLayout>
+        <Header>
+          <Arrow onPress={arrowBack} />
+        </Header>
+        <Player />
+        <Details {...props.get_movie_selected} />
+      </MovieLayout>
+    </Animated.View>
+  );
+};
+
+const mapStateToProps = ({moviesReducer}) => moviesReducer;
+// eslint-disable-next-line prettier/prettier
+export default connect(mapStateToProps, moviesActions)(Movie);
+
+
+```
+
+Como vemos para poder utilizar mejor las animaciones creamos una instacia dentro de un estado y le damos un valor a la propiedad que queremos animar.
+
+```
+
+//de esta forma configuramos la animacion.
+
+   Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1000,
+    }).start();
+
+
+   Animated.timing(valorActual, {
+      toValue: nuevoValor,
+      duration: duracion,
+    }).start();
+
+```
+
+
+### Generar apk firmado
+
+
+**Ubicación del apk**
+
+📂️android-app/build/outpus/apk
+
+
+1. **paso 1**: Crear una llave firmada para identificar nuestra app.
+
+```
+
+keytool -genkey -v platziVideo.keystore -alias -platziVideo-alias -keylag RSA -keysize 2048 -validity 10000
+keytool -genkey -v myNameApp.keystore -alias -my-name-alias -keylag RSA -keysize 2048 -validity 10000
+
+```
+
+Esto nos va a generar un platziVideo.keystore
+
+2. **paso 2**: Mover el archivo generado el .keystore a el directorio 📂️ android/app
+
+3. **paso 3**: editar el archivo del proyecto **~/.gradle/gradle.properties or /android/gradle.properties**
+
+colocar al final del archivo
+
+
+```
+
+MYAPP_UPLOAD_STORE_FILE=platziVideo.keystore
+MYAPP_UPLOAD_KEY_ALIAS=platziVideo-alias
+MYAPP_UPLOAD_STORE_PASSWORD=*****
+MYAPP_UPLOAD_KEY_PASSWORD=*****
+
+```
+
+4. **paso 4**: hacer la configuración para el release en el archivo **android/app/build.gradle**
+
+Solo debemos agregar en el key **signingConfigs** la opción de **release**
+y en el key de **buildTypes** igual la opcion de   **release**
+
+```
+signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+ 	release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+	    signingConfig signingConfigs.release
+        }
+    }
+
+```
+
+5. **paso 5**: ir al directorio **android** y correr el comando
+
+```
+
+./gradlew assembleRelease
+
+```
+
+
+**docs oficial**
+
+![https://reactnative.dev/docs/signed-apk-android](generar apk)
