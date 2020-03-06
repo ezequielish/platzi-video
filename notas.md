@@ -428,7 +428,7 @@ Este componente nos ayuda a manejar el touch en los botones de nuestra inteface 
 
 Esta es una herramienta que nos permite utilizar algo parecido al localStorage pero dentro de react native para que nuestra app pueda funcionar de forma offline, de hecho también nos sirve para persistir los datos en la web pero con *localStorage* aquí usamos **AsyncStorage**.
 
-[https://github.com/rt2zz/redux-persist](persist redux)
+[persist redux](https://github.com/rt2zz/redux-persist)
 
 
 Lo que debemos hacer es persistir los datos y luego dentro de un componente llamado **<PersistGate />** que va como hijo del componente **<Provider />** 
@@ -695,4 +695,6 @@ signingConfigs {
 
 **docs oficial**
 
-[https://reactnative.dev/docs/signed-apk-android](generar apk)
+[generar apk](https://reactnative.dev/docs/signed-apk-android)
+
+
